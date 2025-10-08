@@ -425,7 +425,7 @@ async def test_upgrade_config_v1(hass):
         "log_messages_to_file": False,
         "message_debug_file": "",
     }
-
+    config_entries.UPDATE_ENTRY_CONFIG_ENTRY_ATTRS = {}    
     config_entry = config_entries.ConfigEntry(version=1, minor_version=0, domain=DOMAIN, title = "Test", data = data, source="my_source", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
     with patch.object(hass.config_entries, "async_update_entry") as update_entry:
         await async_migrate_entry(hass, config_entry)
@@ -515,7 +515,7 @@ async def test_upgrade_config_v2(hass):
         "fast_scan_count": 10,
         "timeout": 30,
     }
-
+    config_entries.UPDATE_ENTRY_CONFIG_ENTRY_ATTRS = {}    
     config_entry = config_entries.ConfigEntry(version=1, minor_version=0, domain=DOMAIN, title = "Test", data = data, source="my_source", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
     with patch.object(hass.config_entries, "async_update_entry") as update_entry:
         await async_migrate_entry(hass, config_entry)
@@ -610,7 +610,7 @@ async def test_upgrade_config_v3(hass, caplog):
         "fast_scan_count": 10,
         "timeout": 30,
     }
-
+    config_entries.UPDATE_ENTRY_CONFIG_ENTRY_ATTRS = {}    
     config_entry = config_entries.ConfigEntry(version=1, minor_version=0, domain=DOMAIN, title = "Test", data = data, source="my_source", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
     with patch.object(hass.config_entries, "async_update_entry") as update_entry:
         await async_migrate_entry(hass, config_entry)
@@ -1080,7 +1080,8 @@ async def test_lennoxS30ConfigFlow_async_get_options_flow(manager: Manager, hass
 
 @pytest.mark.asyncio
 async def test_OptionsFlowHandler_async_step_init_local(config_entry_local, hass, caplog):
-    cf = OptionsFlowHandler(config_entry_local)
+    cf = OptionsFlowHandler()
+    cf._config_entry = config_entry_local
     res = await cf.async_step_init(user_input=None)
     assert res["step_id"] == "init"
 
@@ -1108,7 +1109,9 @@ async def test_OptionsFlowHandler_async_step_init_local(config_entry_local, hass
 
 @pytest.mark.asyncio
 async def test_OptionsFlowHandler_async_step_init_cloud(config_entry_cloud, hass, caplog):
-    cf = OptionsFlowHandler(config_entry_cloud)
+    cf = OptionsFlowHandler()
+    cf._config_entry = config_entry_cloud
+
     res = await cf.async_step_init(user_input=None)
     assert res["step_id"] == "init"
 
@@ -1136,7 +1139,8 @@ async def test_OptionsFlowHandler_async_step_init_cloud(config_entry_cloud, hass
 async def test_OptionsFlowHandler_async_step_init_cloud_save(
     config_entry_cloud: config_entries.ConfigEntry, hass, caplog
 ):
-    cf = OptionsFlowHandler(config_entry_cloud)
+    cf = OptionsFlowHandler()
+    cf._config_entry = config_entry_cloud
     cf.hass = hass
     user_input = {}
     user_input[CONF_LOG_MESSAGES_TO_FILE] = False
@@ -1159,9 +1163,11 @@ async def test_OptionsFlowHandler_async_step_init_cloud_save(
 
 @pytest.mark.asyncio
 async def test_OptionsFlowHandler_async_step_init_local_save(
-    config_entry_local: config_entries.ConfigEntry, hass, caplog
+    config_entry_local: config_entries.ConfigEntry, hass,
 ):
-    cf = OptionsFlowHandler(config_entry_local)
+    cf = OptionsFlowHandler()
+    cf._config_entry = config_entry_local
+
     cf.hass = hass
     user_input = {}
     user_input[CONF_LOG_MESSAGES_TO_FILE] = True
