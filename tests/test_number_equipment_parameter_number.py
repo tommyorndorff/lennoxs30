@@ -12,6 +12,10 @@ from homeassistant.const import UnitOfTemperature, UnitOfVolumeFlowRate
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.components.number import NumberDeviceClass
 
+from homeassistant.util.unit_system import (
+    METRIC_SYSTEM, US_CUSTOMARY_SYSTEM
+)
+
 
 from lennoxs30api.s30api_async import lennox_system
 
@@ -60,18 +64,18 @@ async def test_equipment_parameter_number_uom_device_class(hass, manager: Manage
 
     # Parameters 72 is not an absolute temperature, so there should be no
     # unit conversion
-    hass.config.units.temperature_unit = UnitOfTemperature.CELSIUS
+    hass.config.units = METRIC_SYSTEM
     assert c.native_unit_of_measurement == UnitOfTemperature.FAHRENHEIT
     assert c.unit_of_measurement == UnitOfTemperature.FAHRENHEIT
     assert c.device_class is None
 
-    hass.config.units.temperature_unit = UnitOfTemperature.FAHRENHEIT
+    hass.config.units = US_CUSTOMARY_SYSTEM
     assert c.native_unit_of_measurement == UnitOfTemperature.FAHRENHEIT
     assert c.unit_of_measurement == UnitOfTemperature.FAHRENHEIT
 
     # Parameters 292 is an absolute temperature, so there should be
     # unit conversion
-    hass.config.units.temperature_unit = UnitOfTemperature.CELSIUS
+    hass.config.units = METRIC_SYSTEM
     parameter = equipment.parameters[202]
     c = EquipmentParameterNumber(hass, manager, system, equipment, parameter)
     c.hass = hass
@@ -79,7 +83,7 @@ async def test_equipment_parameter_number_uom_device_class(hass, manager: Manage
     assert c.unit_of_measurement == UnitOfTemperature.CELSIUS
     assert c.device_class == NumberDeviceClass.TEMPERATURE
 
-    hass.config.units.temperature_unit = UnitOfTemperature.FAHRENHEIT
+    hass.config.units = US_CUSTOMARY_SYSTEM
     assert c.native_unit_of_measurement == UnitOfTemperature.FAHRENHEIT
     assert c.unit_of_measurement == UnitOfTemperature.FAHRENHEIT
 
@@ -99,7 +103,7 @@ async def test_equipment_parameter_number_max_value(hass, manager: Manager):
     parameter = equipment.parameters[72]
     c = EquipmentParameterNumber(hass, manager, system, equipment, parameter)
     c.hass = hass
-    hass.config.units.temperature_unit = UnitOfTemperature.FAHRENHEIT
+    hass.config.units = US_CUSTOMARY_SYSTEM
     assert c.max_value == float(parameter.range_max)
 
 
@@ -110,7 +114,7 @@ async def test_equipment_parameter_number_min_value(hass, manager: Manager):
     parameter = equipment.parameters[72]
     c = EquipmentParameterNumber(hass, manager, system, equipment, parameter)
     c.hass = hass
-    hass.config.units.temperature_unit = UnitOfTemperature.FAHRENHEIT
+    hass.config.units = US_CUSTOMARY_SYSTEM
 
     assert c.min_value == float(parameter.range_min)
 
@@ -134,9 +138,9 @@ async def test_equipment_parameter_number_value(hass, manager: Manager):
 
     # Parameters 72 is not an absolute temperature, so there should be no
     # unit conversion
-    hass.config.units.temperature_unit = UnitOfTemperature.FAHRENHEIT
+    hass.config.units = US_CUSTOMARY_SYSTEM
     assert c.value == float(parameter.value)
-    hass.config.units.temperature_unit = UnitOfTemperature.CELSIUS
+    hass.config.units = METRIC_SYSTEM
     assert c.value == float(parameter.value)
 
     # Parameters 202 is an absolute temperature, so there should be conversion

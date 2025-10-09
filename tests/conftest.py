@@ -126,33 +126,39 @@ def loadfile(name: str, sysId: str = None) -> json:
 
 @pytest.fixture
 def config_entry_local() -> config_entries.ConfigEntry:
-    config = config_entries.ConfigEntry(version=1, minor_version=0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345")
-    config.data = {}
-    config.data[CONF_CLOUD_CONNECTION] = False
-    config.data[CONF_HOST] = "10.0.0.1"
-    config.data[CONF_APP_ID] = "ha_prod"
-    config.data[CONF_CREATE_SENSORS] = True
-    config.data[CONF_ALLERGEN_DEFENDER_SWITCH] = True
-    config.data[CONF_CREATE_INVERTER_POWER] = True
-    config.data[CONF_CREATE_DIAGNOSTICS_SENSORS] = True
-    config.data[CONF_CREATE_PARAMETERS] = True
-    config.data[CONF_SCAN_INTERVAL] = 10
-    config.data[CONF_INIT_WAIT_TIME] = 30
-    config.data[CONF_FAST_POLL_INTERVAL] = 1.0
-    config.data[CONF_FAST_POLL_COUNT] = 5
-    config.data[CONF_TIMEOUT] = 30
-    config.data[CONF_PROTOCOL] = "https"
-    config.data[CONF_FAST_POLL_COUNT] = 5
-    config.data[CONF_PII_IN_MESSAGE_LOGS] = False
-    config.data[CONF_MESSAGE_DEBUG_LOGGING] = False
-    config.data[CONF_LOG_MESSAGES_TO_FILE] = False
-    config.data[CONF_MESSAGE_DEBUG_FILE] = ""
+    config_entries.UPDATE_ENTRY_CONFIG_ENTRY_ATTRS = {}
+    config = config_entries.ConfigEntry(version=1, minor_version=0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
+    data = {}
+    data[CONF_CLOUD_CONNECTION] = False
+    data[CONF_HOST] = "10.0.0.1"
+    data[CONF_APP_ID] = "ha_prod"
+    data[CONF_CREATE_SENSORS] = True
+    data[CONF_ALLERGEN_DEFENDER_SWITCH] = True
+    data[CONF_CREATE_INVERTER_POWER] = True
+    data[CONF_CREATE_DIAGNOSTICS_SENSORS] = True
+    data[CONF_CREATE_PARAMETERS] = True
+    data[CONF_SCAN_INTERVAL] = 10
+    data[CONF_INIT_WAIT_TIME] = 30
+    data[CONF_FAST_POLL_INTERVAL] = 1.0
+    data[CONF_FAST_POLL_COUNT] = 5
+    data[CONF_TIMEOUT] = 30
+    data[CONF_PROTOCOL] = "https"
+    data[CONF_FAST_POLL_COUNT] = 5
+    data[CONF_PII_IN_MESSAGE_LOGS] = False
+    data[CONF_MESSAGE_DEBUG_LOGGING] = False
+    data[CONF_LOG_MESSAGES_TO_FILE] = False
+    data[CONF_MESSAGE_DEBUG_FILE] = ""
+
+    config.data = data
+
+
     return config
 
 
 @pytest.fixture
 def config_entry_cloud() -> config_entries.ConfigEntry:
-    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345")
+    config_entries.UPDATE_ENTRY_CONFIG_ENTRY_ATTRS = {}    
+    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
     config.data = {}
     config.data[CONF_CLOUD_CONNECTION] = True
     config.data[CONF_EMAIL] = "pete.rage@rage.com"
@@ -263,7 +269,7 @@ def manager_us_customary_units(hass: HomeAssistant, config_entry_local) -> Manag
 
 @pytest.fixture
 def manager_2_systems(hass) -> Manager:
-    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345")
+    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
 
     manager_to_return = Manager(
         hass=hass,
@@ -318,7 +324,7 @@ def manager_2_systems(hass) -> Manager:
 
 @pytest.fixture
 def manager_mz(hass) -> Manager:
-    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345")
+    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
     manager_to_return = Manager(
         hass=hass,
         config=config,
@@ -361,7 +367,7 @@ def manager_mz(hass) -> Manager:
 
 @pytest.fixture
 def manager_system_04_furn_ac_zoning(hass) -> Manager:
-    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345")
+    config = config_entries.ConfigEntry(version=1, minor_version = 0, domain=DOMAIN, title="10.0.0.1", data={}, source="User", unique_id="12345", discovery_keys={}, options=None, subentries_data=[])
     manager_to_return = Manager(
         hass=hass,
         config=config,
