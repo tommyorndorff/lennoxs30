@@ -127,7 +127,7 @@ For Local Connections the Integration instance name is the ip_address / host nam
 
 # Configuration Options
 
-If you want to change the integration configuration, do into the integrations page, find the integration and click configure. This will bring up the set of options you can change. After saving, select Reload or Restart HA for the changes to take affect.
+If you want to change the integration configuration, go into the integrations page, find the integration and click configure. This will bring up the set of options you can change. After saving, select Reload or Restart HA for the changes to take affect.
 
 # Temperature Units (Celsius, Fahrenheit)
 
