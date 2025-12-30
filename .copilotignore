@@ -1,0 +1,74 @@
+# GitHub Copilot ignore file for Lennox S30 Home Assistant Custom Component
+
+# Test files - exclude to prevent test patterns from influencing production code suggestions
+tests/
+**/test_*.py
+**/*_test.py
+pytest.ini
+conftest.py
+
+# Documentation - typically not needed for code suggestions
+docs/
+*.md
+README.MD
+doc_images/
+
+# Sample/Example files - may contain sensitive or example data
+samples/
+**/sample_*
+**/example_*
+
+# Configuration files that may contain sensitive information
+hacs.json
+setup.cfg
+
+# Python build and distribution files
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Package management
+requirements*.txt
+pyproject.toml
+
+# Home Assistant specific
+.storage/
+known_devices.yaml
+secrets.yaml
+*.db
+*.db-journal
